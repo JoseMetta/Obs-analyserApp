@@ -2,4 +2,9 @@ pandas
 numpy
 patool
 matplotlib
+streamlit
+gnsspy
+pyunpack
+patool
+
 
