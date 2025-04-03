@@ -4,6 +4,6 @@ matplotlib
 streamlit
 git+https://github.com/GNSSpy-Project/gnsspy.git@master#egg=gnsspy
 pyunpack==0.3
-patool==4.0.0
+patool
 
 
