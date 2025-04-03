@@ -1,6 +1,5 @@
 pandas
 numpy
-patool
 matplotlib
 streamlit
 git+https://github.com/GNSSpy-Project/gnsspy.git@master#egg=gnsspy
