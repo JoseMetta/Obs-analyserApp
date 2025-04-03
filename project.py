@@ -143,7 +143,7 @@ def main():
 
 
         epochs = df["epoch"].unique() # Unique epochs: Arreglo que contiene todas las épocas
-        print(f": Número total de épocas: {len(df["epoch"].unique())}")
+        st.write(f": Número total de épocas: {len(df['epoch'].unique())}")
 
         time_diffs = np.diff(epochs).astype('timedelta64[ms]') / np.timedelta64(1, 's')
         print(time_diffs)
