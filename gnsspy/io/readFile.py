@@ -477,12 +477,23 @@ def read_obsFile_v3(obsFileName):
         if obsLines[0][0] == ">":
             epochLine = obsLines[0][1:].split()
             if len(epochLine) == 8:
-                epoch_year, epoch_month, epoch_day, epoch_hour, epoch_minute, epoch_second, epoch_flag, epoch_SVNumber = obsLines[0][1:].split()
+                epoch_year, epoch_month, epoch_day, epoch_hour, epoch_minute, epoch_second_str, epoch_flag, epoch_SVNumber = obsLines[0][1:].split()
                 receiver_clock = 0 
             elif len(epochLine) == 9:
-                epoch_year, epoch_month, epoch_day, epoch_hour, epoch_minute, epoch_second, epoch_flag, epoch_SVNumber, receiver_clock = obsLines[0][1:].split()
+                epoch_year, epoch_month, epoch_day, epoch_hour, epoch_minute, epoch_second_str, epoch_flag, epoch_SVNumber, receiver_clock = obsLines[0][1:].split()
             else: raise Warning("Unexpected epoch line format detected! | Program stopped!")
         else: raise Warning("Unexpected format detected! | Program stopped!")
+
+        # Se asume que epoch_second_str contiene la parte entera y decimal, por ejemplo "56.200"
+        try:
+            epoch_seconds_total = float(epoch_second_str)
+        except:
+            epoch_seconds_total = 0.0
+        # Extraer segundos enteros y microsegundos
+        epoch_seconds = int(epoch_seconds_total)
+        epoch_microseconds = int((epoch_seconds_total - epoch_seconds) * 1e6)
+
+        #print("epoch_seconds_total:", epoch_seconds_total)
         # =========================================================================
         if epoch_flag in {"1","3","5","6"}:
             raise Warning("Deal with this later!")
@@ -505,7 +516,9 @@ def read_obsFile_v3(obsFileName):
                                     day = int(epoch_day),
                                     hour = int(epoch_hour),
                                     minute = int(epoch_minute),
-                                    second = int(float(epoch_second)))
+                                    second = epoch_seconds,
+                                    microsecond = epoch_microseconds
+                                    )
             epochList.append(epoch)
             del obsLines[0] # delete epoch header line
             # =============================================================================
